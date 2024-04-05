@@ -1,41 +1,47 @@
-# Завдання 2
-# Створіть клас Ship, який містить інформацію про кораблі.
-# За допомогою механізму успадкування реалізуйте клас
-# Frigate (містить інформацію про фрегат), клас Destroyer(містить
-# інформацію про есмінця), клас Cruiser (містить інформацію
-# про крейсер).
-# Кожен із класів має містити необхідні для роботи методи
-class Ship:
-    def __init__(self, name, displacement):
+# Завдання 3
+# Запрограмуйте клас Money (об’єкт класу оперує однією
+# валютою) для роботи з грошима.
+# У класі мають бути передбачені: поле для зберігання цілої
+# частини грошей (долари, євро, гривні тощо) і поле для зберігання копійок (центи, євроценти, копійки тощо).
+# Домашнє завдання
+# 1
+# Реалізуйте методи виведення суми на екран, задання
+# значень частин.
+# Створіть клас Product для роботи з продуктом або товаром беручи за основу клас Money. Реалізуйте метод для
+# зменшення ціни на задане число.
+# Для кожного з класів реалізуйте необхідні методи та поля.
+class Money:
+    def __init__(self, dollars, cents):
+        self.dollars = dollars
+        self.cents = cents
+
+    def display(self):
+        print(f"${self.dollars}.{self.cents:02}")
+
+    def decrease(self, amount):
+        self.dollars -= amount.dollars
+        self.cents -= amount.cents
+        if self.cents < 0:
+            self.dollars -= 1
+            self.cents += 100
+
+class Product:
+    def __init__(self, name, price):
         self.name = name
-        self.displacement = displacement
+        self.price = price
 
-    def info(self):
-        print(f"Name: {self.name}, Displacement: {self.displacement}")
+    def display(self):
+        print(f"Product: {self.name}, Price: ", end="")
+        self.price.display()
 
-
-class Frigate(Ship):
-    def __init__(self, name, displacement, weapon_system):
-        super().__init__(name, displacement)
-        self.weapon_system = weapon_system
-
-    def attack(self):
-        print(f"{self.name} frigate attacks with {self.weapon_system}")
+    def reduce_price(self, reduction):
+        self.price.decrease(reduction)
 
 
-class Destroyer(Ship):
-    def __init__(self, name, displacement, missile_system):
-        super().__init__(name, displacement)
-        self.missile_system = missile_system
+initial_price = Money(10, 50)  # Початкова ціна $10.50
+product = Product("Laptop", initial_price)
+product.display()
 
-    def launch_missile(self):
-        print(f"{self.name} destroyer launches missile from {self.missile_system}")
-
-
-class Cruiser(Ship):
-    def __init__(self, name, displacement, radar_system):
-        super().__init__(name, displacement)
-        self.radar_system = radar_system
-
-    def detect_enemy(self):
-        print(f"{self.name} cruiser detects enemy using {self.radar_system}")
+reduction = Money(3, 25)  # Знижка $3.25
+product.reduce_price(reduction)
+product.display()
